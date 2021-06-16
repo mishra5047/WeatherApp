@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="title_home">Today</string>
+    <string name="city">City</string>
+    <string name="title_report">7 Days</string>
+    <string name="settings">Settings</string>
+</resources>

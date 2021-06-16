@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.abhishek.weatherapp.Fragments.HomeFragment"
+        android:title="@string/title_home"
+        tools:layout="@layout/home_fragment"
+        />
+
+    <fragment
+        android:name="com.abhishek.weatherapp.Fragments.CityFragment"
+        android:id="@+id/navigation_city"
+        android:title="@string/city"
+        tools:layout="@layout/city_fragment"
+        />
+
+    <fragment
+        android:name="com.abhishek.weatherapp.Fragments.WeekFragment"
+        android:id="@+id/navigation_report"
+        android:title="@string/title_home"
+        tools:layout="@layout/week_fragment"
+        />
+
+    <fragment
+        android:name="com.abhishek.weatherapp.Fragments.SettingsFragment"
+        android:id="@+id/navigation_settings"
+        android:title="@string/settings"
+        tools:layout="@layout/settings_fragment"
+        />
+
+</navigation>

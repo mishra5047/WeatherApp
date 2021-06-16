@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blueBg">#3a84d8</color>
+    <color name="darkBlueBg">#010409</color>
+    <color name="textBlue">#6cccff</color>
+    <color name="black">#FF000000</color>
+    <color name="gradient_3">#2a2c2b</color>
+    <color name="black_light">#757575</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1B9CFC"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/marginHorizontal"
+        >
+
+    <LinearLayout
+        android:paddingLeft="@dimen/marginHorizontal"
+        android:paddingVertical="@dimen/marginHorizontal"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_card_item"
+        android:layout_marginBottom="10dp">
+
+            <TextView
+                android:fontFamily="@font/montserrat_extrabold"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSubHeading"
+                android:maxLength="15"
+                />
+        <TextView
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textXlarge"
+            android:maxLength="15"
+            />
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userName"
+                android:text="Username"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textXlarge"
+                android:maxLength="15"
+                />
+
+            <ImageView
+                android:backgroundTint="@color/white"
+                android:id="@+id/editUserName"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_baseline_edit"
+                android:layout_marginLeft="@dimen/marginHorizontal"
+                />
+
+        </LinearLayout>
+
+        <EditText
+            android:singleLine="true"
+            android:visibility="gone"
+            android:id="@+id/inputUserName"
+            android:layout_marginVertical="@dimen/marginHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Enter New UserName"
+            />
+
+        <TextView
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Preferences"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textXlarge"
+            android:maxLength="15"
+            />
+
+        <RadioGroup
+            android:layout_marginTop="@dimen/marginHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/radioGroup">
+
+            <RadioButton
+                android:id="@+id/radioCelsius"
+                android:layout_width="0dp"
+                android:layout_weight="0.35"
+                android:layout_height="wrap_content"
+                android:text="Celsius"
+                android:textColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:checked="false"
+                android:textSize="@dimen/textXlarge" />
+
+            <RadioButton
+                android:textColor="@color/white"
+                android:id="@+id/radioFahrenheit"
+                android:layout_width="0dp"
+                android:layout_weight="0.65"
+                android:layout_height="wrap_content"
+                android:text="Fahrenheit"
+                android:checked="false"
+                android:textSize="@dimen/textXlarge" />
+
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Save Changes"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="15dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textXlarge"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/black"
+            android:background="@drawable/item_button"
+            android:id="@+id/btnSettings"
+            android:layout_marginVertical="40dp"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

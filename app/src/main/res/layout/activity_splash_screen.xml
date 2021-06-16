@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/blueBg"
+    tools:context=".Activity.SplashScreen">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        >
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:background="@drawable/weather_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_weight="0.3"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:alpha="0.8"
+        android:background="@drawable/item_bottom"
+        android:backgroundTint="@color/darkBlueBg"
+        android:layout_height="0dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/textLarge"
+            android:text="Kindly Enter Your Name To Proceed"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginHorizontal"
+            android:hint="Name Here"
+            android:singleLine="true"
+            android:outlineAmbientShadowColor="@color/white"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            android:id="@+id/nameEnter"/>
+
+        <TextView
+            android:id="@+id/continueBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_button"
+            android:layout_gravity="center_horizontal"
+            android:text="Continue"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/textLarge"
+            android:padding="15dp"/>
+
+    </LinearLayout>
+</LinearLayout>

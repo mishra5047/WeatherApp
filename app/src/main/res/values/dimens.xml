@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimens for Text Sizes-->
+    <dimen name="textMedium">16sp</dimen>
+    <dimen name="textLarge">20sp</dimen>
+    <dimen name="textXlarge">24sp</dimen>
+    <dimen name="textHeading">52sp</dimen>
+    <dimen name="textSubHeading">42sp</dimen>
+
+    <!-- Dimens for Margin -->
+    <dimen name="marginHorizontal">20dp</dimen>
+    <dimen name="marginVertical">20dp</dimen>
+
+    <dimen name="cornerCards">10dp</dimen>
+    <dimen name="imageDimen">45dp</dimen>
+</resources>
