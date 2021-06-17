@@ -1,19 +1,30 @@
 package com.abhishek.weatherapp.Activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ReportFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.abhishek.weatherapp.Fragments.CityFragment;
+import com.abhishek.weatherapp.Fragments.HomeFragment;
+import com.abhishek.weatherapp.Fragments.SettingsFragment;
+import com.abhishek.weatherapp.Fragments.WeekFragment;
 import com.abhishek.weatherapp.R;
 import com.abhishek.weatherapp.databinding.ActivityMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,15 +48,46 @@ public class MainActivity extends AppCompatActivity {
         /* binding and shared preference initialization */
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        loadFragment(new HomeFragment());
+
         sharedPreferences = getApplicationContext().getSharedPreferences("WeatherAppPref", MODE_PRIVATE);
 
         //location fetch done here
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         checkLocationPermission();
+        getCurrentLocation();
 
         // Setting up the bottom navigation bar
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        binding.navView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.navigation_home:
+                    loadFragment(new HomeFragment());
+                    return true;
+                case R.id.navigation_city:
+                    loadFragment(new CityFragment());
+                    return true;
+                case R.id.navigation_report:
+                    loadFragment(new WeekFragment());
+                    return true;
+                case R.id.navigation_settings:
+                    loadFragment(new SettingsFragment());
+                    return true;
+            }
+            return false;
+        });
+    }
+
+    private boolean loadFragment(Fragment fragment) {
+        //switching fragment
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.nav_host_fragment, fragment, "Name Here")
+                    .addToBackStack(null)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 
     /**Function to check if user has given the location permission or not**/
@@ -60,20 +102,21 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                 /** Alert Dialogue Box to Ask the user for location permission */
-                new android.app.AlertDialog.Builder(MainActivity.this)
+                new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Required Location Permission")
                         .setMessage("Grant Permission To Use Current Location, Else default Location will be used")
                         .setPositiveButton("ok", (dialogInterface, i) -> {
                             ActivityCompat.requestPermissions(MainActivity.this,
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                     MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
-                            // permission granted
-                            getCurrentLocation();
+
+                            Toast.makeText(getApplicationContext(), "loading", Toast.LENGTH_SHORT).show();
+                            loadFragment(new HomeFragment());
                         })
                         .setNegativeButton("cancel", (dialogInterface, i) -> {
                             // permission not granted
-                            dialogInterface.dismiss();
-                            getCurrentLocation();
+                            Toast.makeText(this, "Kindly Give Permission to Proceed", Toast.LENGTH_SHORT).show();
+                            checkLocationPermission();
                         }).create().show();
 
             } else {
@@ -91,10 +134,8 @@ public class MainActivity extends AppCompatActivity {
             // permission hasn't been granted
             setDefaultLocation();
             updateSharedPreference();
-            return;
         } else {
             // Permission has been granted
-
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(MainActivity.this, location -> {
                         if (location != null) {
@@ -136,6 +177,17 @@ public class MainActivity extends AppCompatActivity {
     /**Overriding the back pressed method so that the ExitActivity opens when back is pressed**/
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(MainActivity.this, ExitActivity.class));
+        // intent to close the application after 5 seconds
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        startActivity(intent);
+                        finish();
     }
+
+    // code to remove the application from list of recent applications
+    @Override
+    public void finish() {
+        super.finishAndRemoveTask();
+    }
+
 }

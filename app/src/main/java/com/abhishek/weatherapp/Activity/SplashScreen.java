@@ -1,7 +1,6 @@
 package com.abhishek.weatherapp.Activity;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,7 +18,7 @@ import com.google.android.gms.location.LocationServices;
 
 public class SplashScreen extends AppCompatActivity {
     /**
-     The Splash Screen activity that's the default activity for the application
+     * The Splash Screen activity that's the default activity for the application
      **/
 
     // View Binding and SharedPreferences
@@ -31,7 +30,9 @@ public class SplashScreen extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     Double latitude, longitude;
 
-    /** To check whether the user has already opened the app earlier**/
+    /**
+     * To check whether the user has already opened the app earlier
+     **/
     @Override
     protected void onStart() {
         super.onStart();
@@ -41,9 +42,8 @@ public class SplashScreen extends AppCompatActivity {
         String res = getItemFromSharedPreference("userName");
 
         if (!res.isEmpty()) {
-            //user has already logged int earlier intent for the home screen
-            getCurrentLocation();
             intentUtil();
+
         }
     }
 
@@ -57,28 +57,16 @@ public class SplashScreen extends AppCompatActivity {
 
         //location fetch done here
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        checkLocationPermission();
 
         //attaching click listener to the button
         binding.continueBtn.setOnClickListener(v -> {
-
-            // function written in Validation to check if EditText's Text is empty or not
-            boolean res = Validation.isEditTextValid(binding.nameEnter);
-
-            if (res) {
-                // Not Empty
-                // update the shared preferences and go to the next screen
-                initSharedPreference(binding.nameEnter.getText().toString());
-                intentUtil();
-            } else {
-                // Empty
-                binding.nameEnter.setError("Can't Be Empty");
-                binding.nameEnter.requestFocus();
-            }
+            checkLocationPermission();
         });
     }
 
-    /**Function to update the value of latitude & longitude in sharedPreference**/
+    /**
+     * Function to update the value of latitude & longitude in sharedPreference
+     **/
     void updateSharedPreference() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (latitude == null) {
@@ -89,7 +77,9 @@ public class SplashScreen extends AppCompatActivity {
         editor.apply();
     }
 
-    /**Function to check if user has given the location permission or not**/
+    /**
+     * Function to check if user has given the location permission or not
+     **/
     void checkLocationPermission() {
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -109,12 +99,12 @@ public class SplashScreen extends AppCompatActivity {
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                     MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
                             // permission granted
-                                    getCurrentLocation();
+                            getCurrentLocation();
                         })
                         .setNegativeButton("cancel", (dialogInterface, i) -> {
                             // permission not granted
-                            dialogInterface.dismiss();
-                            getCurrentLocation();
+                            Toast.makeText(getApplicationContext(), "Kindly Grant Permission to procceed", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
                         }).create().show();
 
             } else {
@@ -130,9 +120,7 @@ public class SplashScreen extends AppCompatActivity {
     public void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // permission hasn't been granted
-            setDefaultLocation();
-            updateSharedPreference();
-            return;
+            checkLocationPermission();
         } else {
             // Permission has been granted
 
@@ -151,23 +139,43 @@ public class SplashScreen extends AppCompatActivity {
 
                             // updating the shared preference with latitude and longitude
                             updateSharedPreference();
+                            // function written in Validation to check if EditText's Text is empty or not
+
+                            boolean res = Validation.isEditTextValid(binding.nameEnter);
+
+                            if (res) {
+                                // Not Empty
+                                // update the shared preferences and go to the next screen
+                                initSharedPreference(binding.nameEnter.getText().toString());
+                                intentUtil();
+                            } else {
+                                // Empty
+                                binding.nameEnter.setError("Can't Be Empty");
+                                binding.nameEnter.requestFocus();
+                            }
                         }
                     });
         }
     }
 
-    /**Function to set the default latitude and longitude**/
+    /**
+     * Function to set the default latitude and longitude
+     **/
     void setDefaultLocation() {
         latitude = 28.667823;
         longitude = 77.114950;
     }
 
-    /**Intent function for MainActivity.class**/
+    /**
+     * Intent function for MainActivity.class
+     **/
     public void intentUtil() {
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
-    /**Function to edit the shared Preference**/
+    /**
+     * Function to edit the shared Preference
+     **/
     public void initSharedPreference(String str) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("userName", str);
@@ -175,8 +183,28 @@ public class SplashScreen extends AppCompatActivity {
         editor.apply();
     }
 
-    /**Function to get value of a key from shared Preference**/
+    /**
+     * Function to get value of a key from shared Preference
+     **/
     public String getItemFromSharedPreference(String key) {
         return sharedPreferences.getString(key, "");
     }
+
+    /**Overriding the back pressed method so that the ExitActivity opens when back is pressed**/
+    @Override
+    public void onBackPressed() {
+        // intent to close the application after 5 seconds
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
+        finish();
+    }
+
+    // code to remove the application from list of recent applications
+    @Override
+    public void finish() {
+        super.finishAndRemoveTask();
+    }
 }
+
+
