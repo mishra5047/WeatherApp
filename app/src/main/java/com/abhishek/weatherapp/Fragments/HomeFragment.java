@@ -1,7 +1,9 @@
 package com.abhishek.weatherapp.Fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +12,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.abhishek.weatherapp.Activity.SplashScreen;
 import com.abhishek.weatherapp.Util.APIKey;
 import com.abhishek.weatherapp.databinding.HomeFragmentBinding;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -55,6 +62,23 @@ public class HomeFragment extends Fragment {
         getLocationFromSharedPreference();
         getResultFromAPI();
         return binding.getRoot();
+    }
+
+    /**Function to set the default latitude and longitude**/
+    void setDefaultLocation() {
+        latitude = 28.667823;
+        longitude = 77.114950;
+    }
+
+    /**Function to update the value of latitude & longitude in sharedPreference**/
+    void updateSharedPreference() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (latitude == null) {
+            setDefaultLocation();
+        }
+        editor.putFloat("latitude", latitude.floatValue());
+        editor.putFloat("longitude", longitude.floatValue());
+        editor.apply();
     }
 
     /**Function to get value of a key from shared Preference**/
